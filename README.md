@@ -47,6 +47,21 @@ You can start developing by editing the files inside the **app** directory. This
     `npm run storybook:dev` to start storybook
     You will find example stories in the component folder such as `./components/button/Button.stories.tsx`
 
+- Sentry
+    
+    Sentry is almost ready to go. 
+
+    You simply need to connect it to your own projects by doing the following
+
+    `cp ./.env.example ./.env.local`
+    
+    Then, in `.env.local`
+    Add your `SENTRY_AUTH_TOKEN` env variable 
+
+    In `./App.tsx`, change the Sentry dsn with yours.
+
+    Finally, in `./app.config.js`, update the sentry `project` and `organisation` values with yours.
+
 - Authentication TODO
 
     Authentication is ready to go. Just input the API_URL env variable. 

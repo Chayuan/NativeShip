@@ -1,13 +1,15 @@
 const path = require('path');
-const { getDefaultConfig } = require('expo/metro-config');
 const { generate } = require('@storybook/react-native/scripts/generate');
+const {
+    getSentryExpoConfig
+} = require("@sentry/react-native/metro");
 
 generate({
     configPath: path.resolve(__dirname, './.storybook'),
 });
 
 module.exports = (() => {
-    const config = getDefaultConfig(__dirname);
+    const config = getSentryExpoConfig(__dirname);
 
     const { transformer, resolver } = config;
 

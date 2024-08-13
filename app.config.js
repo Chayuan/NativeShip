@@ -5,6 +5,16 @@ module.exports = {
     orientation: 'portrait',
     icon: './assets/images/icon.png',
     scheme: 'myapp',
+    plugins: [
+        [
+            '@sentry/react-native/expo',
+            {
+                url: 'https://sentry.io/',
+                project: 'YOUR_SENTRY_PROJECT',
+                organization: 'TO_BE_REPLACED',
+            },
+        ],
+    ],
     userInterfaceStyle: 'automatic',
     splash: {
         image: './assets/images/splash.png',
