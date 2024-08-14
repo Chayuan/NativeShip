@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { AuthProvider } from '@/components/auth/AuthProvider';
+import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -25,14 +26,16 @@ export default function RootLayout() {
     }
 
     return (
-        <AuthProvider>
-            <Stack>
-                <Stack.Screen
-                    name="(authenticated)"
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen name="+not-found" />
-            </Stack>
-        </AuthProvider>
+        <AnalyticsProvider>
+            <AuthProvider>
+                <Stack>
+                    <Stack.Screen
+                        name="(authenticated)"
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen name="+not-found" />
+                </Stack>
+            </AuthProvider>
+        </AnalyticsProvider>
     );
 }

@@ -2,12 +2,19 @@ import { useAuth } from '@/components/auth/AuthProvider';
 import { Button } from '@/components/button/Button';
 import { View } from 'react-native';
 import * as Sentry from '@sentry/react-native';
+import { useAnalytics } from '@/components/analytics/AnalyticsProvider';
 
 export default function Index() {
     const { signOut } = useAuth();
+    const { mixpanel } = useAnalytics();
     return (
         <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+            style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 5,
+            }}
         >
             <Button
                 onPress={() => {
@@ -15,6 +22,14 @@ export default function Index() {
                 }}
             >
                 Test sentry
+            </Button>
+
+            <Button
+                onPress={() => {
+                    mixpanel.track('button_press');
+                }}
+            >
+                Test mixpanel
             </Button>
             <Button
                 onPress={() => {

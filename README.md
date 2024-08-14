@@ -62,9 +62,14 @@ You can start developing by editing the files inside the **app** directory. This
 
     Finally, in `./app.config.js`, update the sentry `project` and `organisation` values with yours.
 
+- Mixpanel
+
+    As for Sentry, simply enter your own projet.
+    In `.env.local`, change the Mixpanel token with yours.
+
 - Authentication TODO
 
-    Authentication is ready to go. Just input the API_URL env variable. 
+    Authentication is ready to go. Just input the EXPO_PUBLIC_API_URL env variable. 
     If you don't use NativeShip server bundle, you may need to update the signIn and register method of the `AuthProvider`.
     To do so, open `./components/auth/AuthProvider.tsx` 
 
