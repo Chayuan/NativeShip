@@ -3,6 +3,7 @@ import { fr, en } from './translations';
 import { getLocales } from 'expo-localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Updates from 'expo-updates';
+import { Platform } from 'react-native';
 
 const i18n = new I18n({
     'en-US': en,
@@ -33,7 +34,11 @@ export async function changeLocale(locale: string): Promise<void> {
 
     await AsyncStorage.setItem('locale', locale);
 
-    await Updates.reloadAsync();
+    if (Platform.OS === 'web') {
+        window.location.reload();
+    } else {
+        await Updates.reloadAsync();
+    }
 }
 
 export function useI18n(): I18n {

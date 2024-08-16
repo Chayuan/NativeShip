@@ -1,6 +1,6 @@
 import { theme } from '@/styles/theme';
 import { changeLocale, useI18n } from '@/utils/language/i18n';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import {
     Pressable,
     StyleSheet,
@@ -27,6 +27,12 @@ export function LocalePicker(): ReactNode {
         [pickerOpacity],
     );
 
+    useEffect(() => {
+        i18n.onChange(() => {
+            setSelectedLocale(i18n.locale);
+        });
+    }, []);
+
     const [selectedLocale, setSelectedLocale] = useState<string>(i18n.locale);
 
     function onPressOpenLocalePicker() {
@@ -36,7 +42,6 @@ export function LocalePicker(): ReactNode {
 
     function onPressLocale(locale: string) {
         if (locale !== selectedLocale) {
-            setSelectedLocale(locale);
             changeLocale(locale);
         }
 
