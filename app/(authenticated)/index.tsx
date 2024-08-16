@@ -3,8 +3,10 @@ import { Button } from '@/components/button/Button';
 import { View } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import { useAnalytics } from '@/components/analytics/AnalyticsProvider';
+import { useI18n } from '@/utils/language/i18n';
 
 export default function Index() {
+    const i18n = useI18n();
     const { signOut } = useAuth();
     const { mixpanel } = useAnalytics();
     return (
@@ -37,7 +39,7 @@ export default function Index() {
                     signOut();
                 }}
             >
-                Sign out
+                {i18n.t('auth.logoutButton')}
             </Button>
         </View>
     );

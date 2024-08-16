@@ -1,11 +1,13 @@
 import { useAuth } from '@/components/auth/AuthProvider';
 import { Button } from '@/components/button/Button';
 import { Input } from '@/components/forms/TextInput';
+import { useI18n } from '@/utils/language/i18n';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
 
 export default function Register() {
+    const i18n = useI18n();
     const { register } = useAuth();
 
     const [firstName, setFirstName] = useState('');
@@ -29,17 +31,17 @@ export default function Register() {
             }}
         >
             <Input
+                label={i18n.t('auth.firstName')}
                 onChangeText={setFirstName}
                 withClearIcon
                 ref={firstNameInputRef}
-                label="First Name"
                 onSubmitEditing={() => {
                     lastNameInputRef.current?.focus();
                 }}
             />
 
             <Input
-                label="Last Name"
+                label={i18n.t('auth.lastName')}
                 onChangeText={setLastName}
                 withClearIcon
                 ref={lastNameInputRef}
@@ -49,7 +51,7 @@ export default function Register() {
             />
 
             <Input
-                label="Email"
+                label={i18n.t('auth.email')}
                 onChangeText={setEmail}
                 withClearIcon
                 ref={emailInputRef}
@@ -59,8 +61,8 @@ export default function Register() {
             />
 
             <Input
+                label={i18n.t('auth.password')}
                 withClearIcon
-                label="Password"
                 ref={passwordInputRef}
                 type="password"
                 onChangeText={setPassword}
@@ -77,16 +79,16 @@ export default function Register() {
                     router.replace('/');
                 }}
             >
-                Register
+                {i18n.t('auth.registerButton')}
             </Button>
 
             <Text style={{ marginTop: 50 }}>
-                Already have an account?{' '}
+                {i18n.t('auth.alreadyHaveAccount')}{' '}
                 <Text
                     onPress={() => router.replace('/sign-in')}
                     style={{ fontWeight: 'bold' }}
                 >
-                    Sign in
+                    {i18n.t('auth.signInButton')}
                 </Text>
             </Text>
         </View>

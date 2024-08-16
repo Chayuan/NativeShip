@@ -6,6 +6,7 @@ module.exports = {
     icon: './assets/images/icon.png',
     scheme: 'myapp',
     plugins: [
+        'expo-localization',
         [
             '@sentry/react-native/expo',
             {

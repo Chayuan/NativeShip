@@ -6,11 +6,17 @@ import 'react-native-reanimated';
 
 import { AuthProvider } from '@/components/auth/AuthProvider';
 import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider';
+import { detectLocale } from '@/utils/language/i18n';
+import { LocalePicker } from '@/components/language/LocalePicker';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+    useEffect(() => {
+        detectLocale();
+    }, []);
+
     const [loaded] = useFonts({
         SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     });
@@ -35,6 +41,8 @@ export default function RootLayout() {
                     />
                     <Stack.Screen name="+not-found" />
                 </Stack>
+
+                <LocalePicker />
             </AuthProvider>
         </AnalyticsProvider>
     );

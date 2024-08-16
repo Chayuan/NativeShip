@@ -47,6 +47,18 @@ You can start developing by editing the files inside the **app** directory. This
     `npm run storybook:dev` to start storybook
     You will find example stories in the component folder such as `./components/button/Button.stories.tsx`
 
+- Internationalization 
+
+    The app already support language switching. 
+
+    It relies on `expo-localization` and `i18n-js`.
+    Translation file can be found at `./utils/language/translations.ts`
+    
+    To add a new entry (and, or delete existing ones) add a new locale inside the `./utils/language/translations.ts`. Then 
+    import and use it inside the `./utils/language/i18n.ts` file. 
+
+    You may want to make a language picker of your own. An example is ready to be used at `./components/language/LocalePicker.tsx`.
+
 - Sentry
     
     Sentry is almost ready to go. 

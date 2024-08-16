@@ -1,11 +1,13 @@
 import { useAuth } from '@/components/auth/AuthProvider';
 import { Button } from '@/components/button/Button';
 import { Input } from '@/components/forms/TextInput';
+import { useI18n } from '@/utils/language/i18n';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
 
 export default function SignIn() {
+    const i18n = useI18n();
     const { signIn } = useAuth();
 
     const [email, setEmail] = useState('');
@@ -50,16 +52,16 @@ export default function SignIn() {
                     router.replace('/');
                 }}
             >
-                Sign in
+                {i18n.t('auth.signInButton')}
             </Button>
 
             <Text style={{ marginTop: 50 }}>
-                No account?{' '}
+                {i18n.t('auth.noAccount')}{' '}
                 <Text
                     onPress={() => router.replace('/register')}
                     style={{ fontWeight: 'bold' }}
                 >
-                    Register
+                    {i18n.t('auth.registerButton')}
                 </Text>
             </Text>
         </View>
