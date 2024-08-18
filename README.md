@@ -80,7 +80,7 @@ You can start developing by editing the files inside the **app** directory. This
 
 - Authentication
 
-    Authentication is ready to go using the mini-auth backend. 
+    Authentication is ready to go using the <a href="https://github.com/Chayuan/mini-auth">mini-auth</a> backend. 
 
     If you don't use NativeShip server bundle, you may need to update the signIn and register method of the `AuthProvider`.
     To do so, open `./components/auth/AuthProvider.tsx` and replace `signIn` and `register` methods' content.
