@@ -20,6 +20,16 @@ export default function Register() {
     const emailInputRef = useRef<TextInput>(null);
     const passwordInputRef = useRef<TextInput>(null);
 
+    async function registerAndRedirect() {
+        await register({
+            firstName,
+            lastName,
+            email,
+            password,
+        });
+        router.replace('/');
+    }
+
     return (
         <View
             style={{
@@ -66,19 +76,10 @@ export default function Register() {
                 ref={passwordInputRef}
                 type="password"
                 onChangeText={setPassword}
-                onSubmitEditing={() => {
-                    register();
-                }}
+                onSubmitEditing={registerAndRedirect}
             />
 
-            <Button
-                onPress={() => {
-                    register();
-                    // Navigate after signing in. You may want to tweak this to ensure sign-in is
-                    // successful before navigating.
-                    router.replace('/');
-                }}
-            >
+            <Button onPress={registerAndRedirect}>
                 {i18n.t('auth.registerButton')}
             </Button>
 

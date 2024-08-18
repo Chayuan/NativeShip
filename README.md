@@ -25,7 +25,6 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-
 # NativeShip specifics
 
 - Svg as react components 
@@ -79,16 +78,13 @@ You can start developing by editing the files inside the **app** directory. This
     As for Sentry, simply enter your own projet.
     In `.env.local`, change the Mixpanel token with yours.
 
-- Authentication TODO
+- Authentication
 
-    Authentication is ready to go. Just input the EXPO_PUBLIC_API_URL env variable. 
+    Authentication is ready to go using the mini-auth backend. 
+
     If you don't use NativeShip server bundle, you may need to update the signIn and register method of the `AuthProvider`.
-    To do so, open `./components/auth/AuthProvider.tsx` 
-
-    If you are looking for a ready to go NestJS server with authentication already baked in, Sentry integration, and with some example CRUD, 
-    feel free to check _insert api landing url here, for the modique somme of 50000000000$_
-
-- Githug actions TODO
+    To do so, open `./components/auth/AuthProvider.tsx` and replace `signIn` and `register` methods' content.
+     
 
 ## Learn more about expo
 

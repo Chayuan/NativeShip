@@ -1,10 +1,22 @@
 import { useStorageState } from '@/hooks/useStorageState';
 import { useContext, createContext, type PropsWithChildren } from 'react';
 
+export interface SignInParams {
+    email: string;
+    password: string;
+}
+
+export interface RegisterParams {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+}
+
 const AuthContext = createContext<{
-    signIn: () => void;
+    signIn: (params: SignInParams) => Promise<void> | null;
     signOut: () => void;
-    register: () => void;
+    register: (params: RegisterParams) => Promise<void> | null;
     session?: string | null;
     isLoading: boolean;
 }>({
@@ -25,21 +37,68 @@ export function useAuth() {
 
     return value;
 }
-
 export function AuthProvider({ children }: PropsWithChildren) {
     const [[isLoading, session], setSession] = useStorageState('session');
+
+    async function signIn(signInParams: SignInParams) {
+        const response = await fetch(
+            `${process.env.EXPO_PUBLIC_API_URL}/login`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: signInParams.email,
+                    password: signInParams.password,
+                }),
+            },
+        );
+
+        if (response.status >= 300) {
+            const responseText = await response.text();
+            throw new Error(responseText);
+        }
+
+        const { accessToken, refreshToken } = await response.json();
+
+        if (!accessToken || !refreshToken) {
+            throw new Error('This is not supposed to happen');
+        }
+
+        setSession(JSON.stringify({ accessToken, refreshToken }));
+    }
+
+    async function register(registerParams: RegisterParams) {
+        const response = await fetch(
+            `${process.env.EXPO_PUBLIC_API_URL}/register`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(registerParams),
+            },
+        );
+        const { accessToken, refreshToken } = await response.json();
+
+        if (response.status >= 300) {
+            const responseText = await response.text();
+            throw new Error(responseText);
+        }
+
+        if (!accessToken || !refreshToken) {
+            throw new Error('This is not supposed to happen');
+        }
+
+        setSession(JSON.stringify({ accessToken, refreshToken }));
+    }
 
     return (
         <AuthContext.Provider
             value={{
-                signIn: () => {
-                    // Perform sign-in logic here
-                    setSession('xxx');
-                },
-                register: () => {
-                    // Perform registration logic here
-                    setSession('xxx');
-                },
+                signIn,
+                register,
                 signOut: () => {
                     setSession(null);
                 },

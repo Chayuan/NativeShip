@@ -10,11 +10,24 @@ export default function SignIn() {
     const i18n = useI18n();
     const { signIn } = useAuth();
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('johnsmith@user.io');
+    const [password, setPassword] = useState('test');
 
     const emailInputRef = useRef<TextInput>(null);
     const passwordInputRef = useRef<TextInput>(null);
+
+    async function signInAndRedirect() {
+        try {
+            await signIn({
+                email,
+                password,
+            });
+        } catch (err: any) {
+            console.log(err);
+        }
+
+        router.replace('/');
+    }
 
     return (
         <View
@@ -33,25 +46,18 @@ export default function SignIn() {
                 onSubmitEditing={() => {
                     passwordInputRef.current?.focus();
                 }}
+                defaultValue={email}
             />
 
             <Input
                 ref={passwordInputRef}
                 type="password"
                 onChangeText={setPassword}
-                onSubmitEditing={() => {
-                    signIn();
-                }}
+                onSubmitEditing={signInAndRedirect}
+                defaultValue={password}
             />
 
-            <Button
-                onPress={() => {
-                    signIn();
-                    // Navigate after signing in. You may want to tweak this to ensure sign-in is
-                    // successful before navigating.
-                    router.replace('/');
-                }}
-            >
+            <Button onPress={signInAndRedirect}>
                 {i18n.t('auth.signInButton')}
             </Button>
 
