@@ -23,6 +23,7 @@ export interface CustomInputProps
 export const Input = forwardRef<TextInput, CustomInputProps>(
     ({ type, label, disabled, withClearIcon, ...inputProps }, ref) => {
         const [revealed, setRevealed] = useState<boolean>(false);
+        const [value, setValue] = useState(inputProps.defaultValue ?? '');
 
         function onPressReveal() {
             setRevealed(!revealed);
@@ -30,6 +31,7 @@ export const Input = forwardRef<TextInput, CustomInputProps>(
 
         function onPressClear() {
             ref?.current?.clear();
+            setValue('');
         }
 
         return (
@@ -48,6 +50,11 @@ export const Input = forwardRef<TextInput, CustomInputProps>(
                         {...inputProps}
                         style={[styles.input, inputProps.style]}
                         secureTextEntry={type === 'password' && !revealed}
+                        onChangeText={(newValue: string) => {
+                            setValue(newValue);
+                            inputProps.onChangeText &&
+                                inputProps.onChangeText(newValue);
+                        }}
                     />
 
                     {type === 'password' && (
@@ -63,7 +70,7 @@ export const Input = forwardRef<TextInput, CustomInputProps>(
                         </TouchableOpacity>
                     )}
 
-                    {withClearIcon ? (
+                    {withClearIcon && value && value.length > 0 ? (
                         <TouchableOpacity
                             onPress={onPressClear}
                             style={styles.revealButton}

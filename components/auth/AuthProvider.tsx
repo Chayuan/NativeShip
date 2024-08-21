@@ -1,5 +1,6 @@
 import { useStorageState } from '@/hooks/useStorageState';
 import { useContext, createContext, type PropsWithChildren } from 'react';
+import { useAnalytics } from '../analytics/AnalyticsProvider';
 
 export interface SignInParams {
     email: string;
@@ -27,18 +28,9 @@ const AuthContext = createContext<{
     isLoading: false,
 });
 
-export function useAuth() {
-    const value = useContext(AuthContext);
-    if (process.env.NODE_ENV !== 'production') {
-        if (!value) {
-            throw new Error('useAuth must be wrapped in an <AuthProvider />');
-        }
-    }
-
-    return value;
-}
 export function AuthProvider({ children }: PropsWithChildren) {
     const [[isLoading, session], setSession] = useStorageState('session');
+    const { identify, reset } = useAnalytics();
 
     async function signIn(signInParams: SignInParams) {
         const response = await fetch(
@@ -67,6 +59,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
         }
 
         setSession(JSON.stringify({ accessToken, refreshToken }));
+
+        // fetch user and identify for analytics
+        const user = await getSelf();
+        identify(user.id);
     }
 
     async function register(registerParams: RegisterParams) {
@@ -92,6 +88,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
         }
 
         setSession(JSON.stringify({ accessToken, refreshToken }));
+
+        // fetch user and identify for analytics
+        const user = await getSelf();
+        identify(user.id);
     }
 
     return (
@@ -101,6 +101,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
                 register,
                 signOut: () => {
                     setSession(null);
+                    // analytics reset (un-identification)
+                    reset();
                 },
                 session,
                 isLoading,
@@ -109,4 +111,22 @@ export function AuthProvider({ children }: PropsWithChildren) {
             {children}
         </AuthContext.Provider>
     );
+}
+
+export function useAuth() {
+    const value = useContext(AuthContext);
+
+    if (process.env.NODE_ENV !== 'production') {
+        if (!value) {
+            throw new Error('useAuth must be wrapped in an <AuthProvider />');
+        }
+    }
+
+    return value;
+}
+
+async function getSelf(): Promise<User> {
+    return {
+        id: '1234',
+    };
 }

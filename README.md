@@ -77,6 +77,14 @@ You can start developing by editing the files inside the **app** directory. This
 
     As for Sentry, simply enter your own projet.
     In `.env.local`, change the Mixpanel token with yours.
+    
+    If mixpanel doesn't suit you, feel free to use whatever analytics tool you prefer. 
+    Please note that google analytics, via firebase, requires prebuilt project. 
+        
+    I chose not to ship prebuilt project (projects with ios/ and android/ folders) because such folders are configured using the `app.config.js` file at the time the command is run.
+    This would mean that changing anything like the bundle name would be much more complicated with those folders already generated. 
+    
+    Please refer to the <a href="https://docs.expo.dev/workflow/overview/#2-the-native-projects">expo doc</a>, they explain it better than I do.
 
 - Authentication
 

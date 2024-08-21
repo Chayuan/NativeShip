@@ -8,7 +8,7 @@ import { useI18n } from '@/utils/language/i18n';
 export default function Index() {
     const i18n = useI18n();
     const { signOut } = useAuth();
-    const { mixpanel } = useAnalytics();
+    const { track } = useAnalytics();
     return (
         <View
             style={{
@@ -28,7 +28,7 @@ export default function Index() {
 
             <Button
                 onPress={() => {
-                    mixpanel.track('button_press');
+                    track('button_press');
                 }}
             >
                 Test mixpanel
